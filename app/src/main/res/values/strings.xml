@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ReedetTops</string>
+
+    <plurals name="comments_count">
+        <item quantity="one">1 comment</item>
+        <item quantity="other">%1$d comments</item>
+    </plurals>
 </resources>

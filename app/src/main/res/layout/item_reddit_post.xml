@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="reddit_post"
+            name="redditPost"
             type="ar.com.cristianduarte.reedettops.entity.RedditPost" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/post_read_indicator"
@@ -25,6 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             tools:text="some author"
+            android:text="@{redditPost.author}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/post_read_indicator" />
 
@@ -46,6 +46,7 @@
             app:layout_constraintBottom_toBottomOf="@id/post_thumbnail"
             app:layout_constraintEnd_toEndOf="parent"
             android:maxLines="3"
+            android:text="@{redditPost.title}"
             tools:text="Man trying to return a dog's toy gets tricked into playing fetch" />
 <!-- TODO Make sense of all dimensions and positioning here -->
         <ImageView
@@ -75,6 +76,7 @@
             app:layout_constraintTop_toTopOf="@id/post_dismiss"
             app:layout_constraintBottom_toBottomOf="@id/post_dismiss"
             android:gravity="center"
+            android:text="@{@plurals/comments_count(redditPost.numComments, redditPost.numComments)}"
             tools:text="234 Comments"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
