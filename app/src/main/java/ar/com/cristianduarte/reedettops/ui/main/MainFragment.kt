@@ -8,8 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import ar.com.cristianduarte.reedettops.R
 import ar.com.cristianduarte.reedettops.databinding.MainFragmentBinding
+import ar.com.cristianduarte.reedettops.repository.RedditPostsRepository
 
 class MainFragment : Fragment() {
 
@@ -17,12 +20,13 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels() { MainViewModelFactory(RedditPostsRepository()) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val binding: MainFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
 
+        // Necessary for binding observing LiveData updates
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
@@ -43,4 +47,10 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
     }
 
+}
+
+class MainViewModelFactory(private val repository: RedditPostsRepository) :
+    ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>) = MainViewModel(repository) as T
 }
