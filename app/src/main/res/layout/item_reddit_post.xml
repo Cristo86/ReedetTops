@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="reddit_post"
+            type="ar.com.cristianduarte.reedettops.entity.RedditPost" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent">
+
+        <ImageView
+            android:id="@+id/post_read_indicator"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/post_author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="some author"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/post_read_indicator" />
+
+        <ImageView
+            android:id="@+id/post_thumbnail"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_author"
+            tools:src="@drawable/ic_launcher_background"
+            android:contentDescription="post thumbnail"  />
+
+        <TextView
+            android:id="@+id/post_title"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            app:layout_constraintStart_toEndOf="@id/post_thumbnail"
+            app:layout_constraintTop_toTopOf="@id/post_thumbnail"
+            app:layout_constraintBottom_toBottomOf="@id/post_thumbnail"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:maxLines="3"
+            tools:text="Man trying to return a dog's toy gets tricked into playing fetch" />
+<!-- TODO Make sense of all dimensions and positioning here -->
+        <ImageView
+            android:id="@+id/chevron"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/post_thumbnail"
+            app:layout_constraintBottom_toBottomOf="@id/post_thumbnail"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/post_dismiss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/post_thumbnail"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Dismiss Post"
+            android:text="Dismiss Post"  />
+
+        <TextView
+            android:id="@+id/post_comments_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/post_dismiss"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/post_dismiss"
+            app:layout_constraintBottom_toBottomOf="@id/post_dismiss"
+            android:gravity="center"
+            tools:text="234 Comments"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
