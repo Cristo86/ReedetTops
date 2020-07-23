@@ -26,7 +26,7 @@ class MainFragment : Fragment() {
                               savedInstanceState: Bundle?): View {
         val binding: MainFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
 
-        // Necessary for binding observing LiveData updates
+        // Necessary for binding and observing LiveData updates
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
