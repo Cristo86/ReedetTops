@@ -51,18 +51,13 @@ class MainFragment : Fragment(), RedditPostsAdapter.RedditPostActionsListener {
             }
         })
 
-        // as we want "tops", we need to refresh when starting
-        viewModel.fetchRedditPosts(true)
-
         return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        // as we want "tops", we need to refresh when starting
+        viewModel.fetchRedditPosts(true)
     }
 
     override fun onDismissClicked(redditPost: RedditPost) {
