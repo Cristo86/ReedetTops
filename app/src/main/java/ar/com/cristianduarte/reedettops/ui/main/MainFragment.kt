@@ -14,9 +14,10 @@ import ar.com.cristianduarte.reedettops.R
 import ar.com.cristianduarte.reedettops.databinding.MainFragmentBinding
 import ar.com.cristianduarte.reedettops.datasource.database.RedditPostsDatabase
 import ar.com.cristianduarte.reedettops.datasource.remote.service.RedditApiDatasource
+import ar.com.cristianduarte.reedettops.entity.RedditPost
 import ar.com.cristianduarte.reedettops.repository.RedditPostsRepository
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), RedditPostsAdapter.RedditPostDismissClickListener {
 
     companion object {
         fun newInstance() = MainFragment()
@@ -35,7 +36,7 @@ class MainFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        val adapter = RedditPostsAdapter()
+        val adapter = RedditPostsAdapter(this)
         binding.redditPostsRecyclerView.adapter = adapter
 
         viewModel.pagedRedditPosts.observe(viewLifecycleOwner, Observer {
@@ -57,6 +58,10 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+    }
+
+    override fun onDismissClicked(redditPost: RedditPost) {
+        viewModel.dismissPost(redditPost)
     }
 
 }

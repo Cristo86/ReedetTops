@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import ar.com.cristianduarte.reedettops.databinding.ItemRedditPostBinding
 import ar.com.cristianduarte.reedettops.entity.RedditPost
 
-class RedditPostsAdapter : PagedListAdapter<RedditPost, RedditPostsAdapter.ViewHolder>(RedditPostDiffCallback()) {
+class RedditPostsAdapter(private val dismissClickListener: RedditPostDismissClickListener) :
+    PagedListAdapter<RedditPost, RedditPostsAdapter.ViewHolder>(RedditPostDiffCallback()) {
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(parent, dismissClickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -21,21 +23,29 @@ class RedditPostsAdapter : PagedListAdapter<RedditPost, RedditPostsAdapter.ViewH
         holder.bind(item)
     }
 
-    class ViewHolder private constructor(val binding: ItemRedditPostBinding) :
+    class ViewHolder private constructor(
+        private val binding: ItemRedditPostBinding,
+        private val dismissClickListener: RedditPostDismissClickListener
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: RedditPost?) {
             binding.redditPost = item
+            binding.dismissClickListener = dismissClickListener
             binding.executePendingBindings()
         }
 
         companion object {
-            fun from(parent: ViewGroup): ViewHolder {
+            fun from(parent: ViewGroup, dismissClickListener: RedditPostDismissClickListener): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ItemRedditPostBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
+                return ViewHolder(binding, dismissClickListener)
             }
         }
+    }
+
+    interface RedditPostDismissClickListener {
+        fun onDismissClicked(redditPost: RedditPost);
     }
 }
 

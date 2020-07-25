@@ -30,6 +30,12 @@ class MainViewModel(val repository: RedditPostsRepository) : ViewModel() {
         }
     }
 
+    fun dismissPost(redditPost: RedditPost) {
+        viewModelScope.launch {
+            repository.dismissPost(redditPost)
+        }
+    }
+
     inner class PostsBoundaryCallback(): PagedList.BoundaryCallback<RedditPost>() {
         override fun onItemAtEndLoaded(itemAtEnd: RedditPost) {
             viewModelScope.launch {

@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
+            name="dismissClickListener"
+            type="ar.com.cristianduarte.reedettops.ui.main.RedditPostsAdapter.RedditPostDismissClickListener" />
+
+        <variable
             name="redditPost"
             type="ar.com.cristianduarte.reedettops.entity.RedditPost" />
     </data>
@@ -64,6 +68,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/post_thumbnail"
             app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{() -> dismissClickListener.onDismissClicked(redditPost)}"
             tools:text="Dismiss Post"
             android:text="Dismiss Post"  />
 
