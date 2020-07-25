@@ -63,4 +63,7 @@ class RedditPostsRepository(val redditApiDatasource: RedditApiDatasource, val re
         redditPostsDao.delete(redditPost.id)
     }
 
+    suspend fun redditPostById(id: String): RedditPost {
+        return redditPostsDao.get(id)
+    }
 }

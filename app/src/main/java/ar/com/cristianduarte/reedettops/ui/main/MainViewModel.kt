@@ -1,20 +1,14 @@
 package ar.com.cristianduarte.reedettops.ui.main
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import androidx.paging.toLiveData
 import ar.com.cristianduarte.reedettops.entity.RedditPost
 import ar.com.cristianduarte.reedettops.repository.RedditPostsRepository
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainViewModel(val repository: RedditPostsRepository) : ViewModel() {
-
-    val redditPosts: LiveData<PagedList<RedditPost>> = repository.redditPosts().toLiveData(pageSize = 20)
 
     val pagedRedditPosts =
         LivePagedListBuilder(

@@ -17,6 +17,9 @@ interface RedditPostsDao {
     @Query("DELETE from reddit_posts where id=:postId")
     suspend fun delete(postId: String)
 
+    @Query("SELECT * from reddit_posts where id=:postId")
+    suspend fun get(postId: String) : RedditPost
+
     @Query("DELETE from reddit_posts")
     suspend fun deleteAll()
 

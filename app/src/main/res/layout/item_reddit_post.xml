@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="dismissClickListener"
-            type="ar.com.cristianduarte.reedettops.ui.main.RedditPostsAdapter.RedditPostDismissClickListener" />
+            name="actionsListener"
+            type="ar.com.cristianduarte.reedettops.ui.main.RedditPostsAdapter.RedditPostActionsListener" />
 
         <variable
             name="redditPost"
@@ -14,7 +14,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> actionsListener.onRedditPostClicked(redditPost)}">
 
         <ImageView
             android:id="@+id/post_read_indicator"
@@ -68,7 +69,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/post_thumbnail"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{() -> dismissClickListener.onDismissClicked(redditPost)}"
+            android:onClick="@{() -> actionsListener.onDismissClicked(redditPost)}"
             tools:text="Dismiss Post"
             android:text="Dismiss Post"  />
 

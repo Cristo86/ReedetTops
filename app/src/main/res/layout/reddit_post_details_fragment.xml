@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="ar.com.cristianduarte.reedettops.ui.main.RedditPostDetailsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent">
+
+        <TextView
+            android:id="@+id/post_author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="some author"
+            android:text="@{viewModel.currentRedditPost.author}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/post_thumbnail"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_author"
+            tools:src="@drawable/ic_launcher_background"
+            android:contentDescription="post thumbnail"  />
+
+        <TextView
+            android:id="@+id/post_title"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_thumbnail"
+            android:maxLines="3"
+            android:text="@{viewModel.currentRedditPost.title}"
+            tools:text="Man trying to return a dog's toy gets tricked into playing fetch" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -17,10 +17,14 @@ import ar.com.cristianduarte.reedettops.datasource.remote.service.RedditApiDatas
 import ar.com.cristianduarte.reedettops.entity.RedditPost
 import ar.com.cristianduarte.reedettops.repository.RedditPostsRepository
 
-class MainFragment : Fragment(), RedditPostsAdapter.RedditPostDismissClickListener {
+class MainFragment : Fragment(), RedditPostsAdapter.RedditPostActionsListener {
 
     companion object {
         fun newInstance() = MainFragment()
+    }
+
+    internal var callback: PostItemActionsListener = object : PostItemActionsListener {
+        override fun onPostSelected(redditPost: RedditPost) { }
     }
 
     private val viewModel: MainViewModel by viewModels() { MainViewModelFactory(RedditPostsRepository(
@@ -65,6 +69,17 @@ class MainFragment : Fragment(), RedditPostsAdapter.RedditPostDismissClickListen
         viewModel.dismissPost(redditPost)
     }
 
+    override fun onRedditPostClicked(redditPost: RedditPost) {
+        callback.onPostSelected(redditPost)
+    }
+
+    fun setPostItemActionsListener(postItemActionsListener: PostItemActionsListener) {
+        callback = postItemActionsListener
+    }
+
+    interface PostItemActionsListener {
+        fun onPostSelected(redditPost: RedditPost)
+    }
 }
 
 class MainViewModelFactory(private val repository: RedditPostsRepository) :

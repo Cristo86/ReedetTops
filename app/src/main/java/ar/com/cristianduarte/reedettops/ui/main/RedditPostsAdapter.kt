@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import ar.com.cristianduarte.reedettops.databinding.ItemRedditPostBinding
 import ar.com.cristianduarte.reedettops.entity.RedditPost
 
-class RedditPostsAdapter(private val dismissClickListener: RedditPostDismissClickListener) :
+class RedditPostsAdapter(private val actionsListener: RedditPostActionsListener) :
     PagedListAdapter<RedditPost, RedditPostsAdapter.ViewHolder>(RedditPostDiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        return ViewHolder.from(parent, dismissClickListener)
+        return ViewHolder.from(parent, actionsListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -25,27 +25,29 @@ class RedditPostsAdapter(private val dismissClickListener: RedditPostDismissClic
 
     class ViewHolder private constructor(
         private val binding: ItemRedditPostBinding,
-        private val dismissClickListener: RedditPostDismissClickListener
+        private val actionsListener: RedditPostActionsListener
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: RedditPost?) {
             binding.redditPost = item
-            binding.dismissClickListener = dismissClickListener
+            binding.actionsListener = actionsListener
             binding.executePendingBindings()
         }
 
         companion object {
-            fun from(parent: ViewGroup, dismissClickListener: RedditPostDismissClickListener): ViewHolder {
+            fun from(parent: ViewGroup, actionsListener: RedditPostActionsListener): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ItemRedditPostBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding, dismissClickListener)
+                return ViewHolder(binding, actionsListener)
             }
         }
     }
 
-    interface RedditPostDismissClickListener {
-        fun onDismissClicked(redditPost: RedditPost);
+    interface RedditPostActionsListener {
+        fun onDismissClicked(redditPost: RedditPost)
+
+        fun onRedditPostClicked(redditPost: RedditPost)
     }
 }
 
