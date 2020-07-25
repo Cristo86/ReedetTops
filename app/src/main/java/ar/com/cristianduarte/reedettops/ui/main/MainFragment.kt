@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ar.com.cristianduarte.reedettops.R
 import ar.com.cristianduarte.reedettops.databinding.MainFragmentBinding
+import ar.com.cristianduarte.reedettops.datasource.database.RedditPostsDatabase
+import ar.com.cristianduarte.reedettops.datasource.remote.service.RedditApiDatasource
 import ar.com.cristianduarte.reedettops.repository.RedditPostsRepository
 
 class MainFragment : Fragment() {
@@ -20,7 +22,9 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private val viewModel: MainViewModel by viewModels() { MainViewModelFactory(RedditPostsRepository()) }
+    private val viewModel: MainViewModel by viewModels() { MainViewModelFactory(RedditPostsRepository(
+        RedditApiDatasource(), RedditPostsDatabase.getInstance(requireNotNull(this.activity).application).redditPostsDao
+    )) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -41,6 +45,11 @@ class MainFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchRedditPosts(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
