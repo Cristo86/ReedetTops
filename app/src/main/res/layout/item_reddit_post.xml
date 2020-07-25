@@ -14,17 +14,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/item_height"
         android:onClick="@{() -> actionsListener.onRedditPostClicked(redditPost)}">
-
-        <View
-            android:id="@+id/post_read_indicator"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:background="@color/colorAccent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:makeInvisibie="@{redditPost.locallyRead}"/>
 
         <TextView
             android:id="@+id/post_author"
@@ -32,15 +23,45 @@
             android:layout_height="wrap_content"
             tools:text="some author"
             android:text="@{redditPost.author}"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:layout_marginTop="@dimen/vertical_margin"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/post_read_indicator" />
 
+        <TextView
+            android:id="@+id/post_time_ago"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="some time ago"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            app:layout_constraintTop_toTopOf="@id/post_author"
+            app:layout_constraintBottom_toBottomOf="@id/post_author"
+            app:layout_constraintStart_toEndOf="@id/post_author"
+            app:timeAgoSecs="@{redditPost.createdUtc}"/>
+
+        <ImageView
+            android:id="@+id/post_read_indicator"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="@dimen/vertical_margin"
+            app:layout_constraintTop_toTopOf="@id/post_author"
+            app:layout_constraintBottom_toBottomOf="@id/post_author"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:src="@drawable/ic_markunread_black_16dp"
+            android:tint="@color/colorPrimary"
+            app:makeInvisibie="@{redditPost.locallyRead}"/>
+
         <ImageView
             android:id="@+id/post_thumbnail"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/item_thumbnail_size"
+            android:layout_height="@dimen/item_thumbnail_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_author"
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginStart="@dimen/horizontal_margin"
             tools:src="@drawable/ic_launcher_background"
             android:contentDescription="post thumbnail"
             app:imageUrl="@{redditPost.thumbnail}"/>
@@ -48,33 +69,27 @@
         <TextView
             android:id="@+id/post_title"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/post_thumbnail"
             app:layout_constraintTop_toTopOf="@id/post_thumbnail"
             app:layout_constraintBottom_toBottomOf="@id/post_thumbnail"
             app:layout_constraintEnd_toEndOf="parent"
-            android:maxLines="3"
+            android:layout_marginHorizontal="@dimen/horizontal_margin"
+            android:maxLines="4"
             android:text="@{redditPost.title}"
             tools:text="Man trying to return a dog's toy gets tricked into playing fetch" />
 <!-- TODO Make sense of all dimensions and positioning here -->
-        <ImageView
-            android:id="@+id/chevron"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/post_thumbnail"
-            app:layout_constraintBottom_toBottomOf="@id/post_thumbnail"
-            tools:src="@drawable/ic_launcher_background" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/post_dismiss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/post_thumbnail"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:onClick="@{() -> actionsListener.onDismissClicked(redditPost)}"
-            tools:text="Dismiss Post"
-            android:text="Dismiss Post"  />
+            style="@style/Widget.AppCompat.Button.Borderless"
+            tools:text="Dismiss"
+            android:text="Dismiss"  />
 
         <TextView
             android:id="@+id/post_comments_count"
@@ -85,7 +100,13 @@
             app:layout_constraintTop_toTopOf="@id/post_dismiss"
             app:layout_constraintBottom_toBottomOf="@id/post_dismiss"
             android:gravity="center"
+            style="@style/TextAppearance.AppCompat.Small"
             android:text="@{@plurals/comments_count(redditPost.numComments, redditPost.numComments)}"
             tools:text="234 Comments"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gray"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

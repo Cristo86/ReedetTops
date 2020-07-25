@@ -12,7 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent">
+        android:layout_marginHorizontal="@dimen/horizontal_margin"
+        android:layout_marginVertical="@dimen/vertical_margin">
 
         <TextView
             android:id="@+id/post_author"
@@ -20,16 +21,20 @@
             android:layout_height="wrap_content"
             tools:text="some author"
             android:text="@{viewModel.currentRedditPost.author}"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:gravity="center_horizontal"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <ImageView
             android:id="@+id/post_thumbnail"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/post_image_size"
+            android:layout_height="@dimen/post_image_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_author"
+            android:layout_marginTop="@dimen/vertical_margin"
             tools:src="@drawable/ic_launcher_background"
             android:contentDescription="post thumbnail"
             app:imageUrl="@{viewModel.currentRedditPost.thumbnail}"/>
@@ -37,11 +42,12 @@
         <TextView
             android:id="@+id/post_title"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_thumbnail"
-            android:maxLines="3"
+            android:layout_marginTop="@dimen/vertical_margin"
+            style="@style/TextAppearance.AppCompat.Title"
             android:text="@{viewModel.currentRedditPost.title}"
             tools:text="Man trying to return a dog's toy gets tricked into playing fetch" />
     </androidx.constraintlayout.widget.ConstraintLayout>

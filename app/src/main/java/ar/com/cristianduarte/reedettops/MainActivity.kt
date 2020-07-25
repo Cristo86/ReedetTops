@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity(), MainFragment.PostItemActionsListener {
     }
 
     override fun onPostSelected(redditPost: RedditPost) {
-        Toast.makeText(this, "hey! ${redditPost.author}", Toast.LENGTH_SHORT).show()
         if (mIsDualPane) {
             mDetailsFragment?.displayRedditPost(redditPost)
         } else {
