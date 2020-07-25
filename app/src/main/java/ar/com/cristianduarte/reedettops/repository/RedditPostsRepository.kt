@@ -2,7 +2,6 @@ package ar.com.cristianduarte.reedettops.repository
 
 import android.util.Log
 import ar.com.cristianduarte.reedettops.datasource.database.RedditPostsDao
-import ar.com.cristianduarte.reedettops.datasource.database.RedditPostsDatabase
 import ar.com.cristianduarte.reedettops.datasource.remote.entity.RedditPostsResponse
 import ar.com.cristianduarte.reedettops.datasource.remote.service.RedditApiDatasource
 import ar.com.cristianduarte.reedettops.entity.RedditPost
@@ -39,6 +38,11 @@ class RedditPostsRepository(val redditApiDatasource: RedditApiDatasource, val re
 
         val redditPostsToInsert = top.data.children.mapIndexed { index, redditPostData ->
             redditPostData.data.index = count + index
+            redditPostData.data.previewImageUrl = redditPostData.data.preview?.images?.let {
+                if (it.isEmpty()) return@let ""
+                // Why &amp; https://old.reddit.com/r/redditdev/comments/9ncg2r/changes_in_api_pictures/
+                return@let it[0].source.url.replace("&amp;","&")
+            }
             redditPostData.data
         }
         after = top.data.after?:""

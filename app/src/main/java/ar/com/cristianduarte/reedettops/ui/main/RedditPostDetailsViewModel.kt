@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import ar.com.cristianduarte.reedettops.entity.RedditPost
 import ar.com.cristianduarte.reedettops.repository.RedditPostsRepository
 
-class RedditPostDetailsViewModel(val repository: RedditPostsRepository) : ViewModel()  {
+class RedditPostDetailsViewModel(private val repository: RedditPostsRepository) : ViewModel()  {
 
     var currentRedditPost: RedditPost = NO_POST
 
@@ -17,6 +17,6 @@ class RedditPostDetailsViewModel(val repository: RedditPostsRepository) : ViewMo
     }
 
     companion object {
-        val NO_POST = RedditPost("","","",0,0,"", 0, false)
+        val NO_POST = RedditPost("","","",0,0,"", 0, false, "", null, null)
     }
 }

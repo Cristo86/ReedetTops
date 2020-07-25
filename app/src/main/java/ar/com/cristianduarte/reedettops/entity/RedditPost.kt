@@ -2,11 +2,15 @@ package ar.com.cristianduarte.reedettops.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+// Why @JvmOverloads
+// https://www.coroutinedispatcher.com/2019/08/solving-room-cannot-find-setter-for.html
+
 @Entity(tableName = "reddit_posts")
-data class RedditPost (
+data class RedditPost @JvmOverloads constructor(
 
     @PrimaryKey(autoGenerate = false)
     @SerializedName("id")
@@ -31,11 +35,37 @@ data class RedditPost (
 
     @SerializedName("thumbnail")
     @ColumnInfo(name = "thumbnail")
-    val thumbnail: String,
+    var thumbnail: String,
 
     @ColumnInfo(name = "idx")
     var index: Int,
 
     @ColumnInfo(name = "locally_read")
-    var locallyRead: Boolean
+    var locallyRead: Boolean,
+
+    @SerializedName("permalink")
+    @ColumnInfo(name = "permalink")
+    var permalink: String,
+
+    @Ignore
+    @SerializedName("preview")
+    var preview: PreviewElement? = null,
+
+    @ColumnInfo(name = "image_url")
+    var previewImageUrl: String?
+)
+
+data class PreviewElement (
+    @SerializedName("images")
+    var images: List<ImageElement>
+)
+
+data class ImageElement (
+    @SerializedName("source")
+    var source: ImageSource
+)
+
+data class ImageSource (
+    @SerializedName("url")
+    var url: String
 )

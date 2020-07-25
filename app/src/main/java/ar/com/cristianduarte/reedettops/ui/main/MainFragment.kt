@@ -27,7 +27,7 @@ class MainFragment : Fragment(), RedditPostsAdapter.RedditPostActionsListener {
         override fun onPostSelected(redditPost: RedditPost) { }
     }
 
-    private val viewModel: MainViewModel by viewModels() { MainViewModelFactory(RedditPostsRepository(
+    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(RedditPostsRepository(
         RedditApiDatasource(), RedditPostsDatabase.getInstance(requireNotNull(this.activity).application).redditPostsDao
     )) }
 

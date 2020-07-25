@@ -25,9 +25,14 @@ class RedditPostDetailsFragment : Fragment() {
     }
 
     // TODO delete private val viewModel: RedditPostDetailsViewModel by viewModels()
-    private val viewModel: RedditPostDetailsViewModel by viewModels() { RedditPostDetailsViewModelFactory(RedditPostsRepository(
-        RedditApiDatasource(), RedditPostsDatabase.getInstance(requireNotNull(this.activity).application).redditPostsDao
-    )) }
+    private val viewModel: RedditPostDetailsViewModel by viewModels {
+        RedditPostDetailsViewModelFactory(
+            RedditPostsRepository(
+                RedditApiDatasource(),
+                RedditPostsDatabase.getInstance(requireNotNull(this.activity).application).redditPostsDao
+            )
+        )
+    }
 
     lateinit var binding: RedditPostDetailsFragmentBinding
 
