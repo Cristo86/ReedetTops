@@ -1,13 +1,28 @@
 package ar.com.cristianduarte.reedettops.ui.main
 
-import androidx.lifecycle.*
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import ar.com.cristianduarte.reedettops.entity.RedditPost
 import ar.com.cristianduarte.reedettops.repository.RedditPostsRepository
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel(val repository: RedditPostsRepository) : ViewModel() {
 
-    val redditPosts: LiveData<List<RedditPost>> = repository.redditPosts().asLiveData()
+    val redditPosts: LiveData<PagedList<RedditPost>> = repository.redditPosts().toLiveData(pageSize = 20)
+
+    val pagedRedditPosts =
+        LivePagedListBuilder(
+            repository.redditPosts(),
+            PagedList.Config.Builder().setPageSize(20).setPrefetchDistance(1).build()
+        ).setBoundaryCallback(PostsBoundaryCallback())
+            .build()
+
 
     fun fetchRedditPosts(reset: Boolean) {
         viewModelScope.launch {
@@ -15,4 +30,11 @@ class MainViewModel(val repository: RedditPostsRepository) : ViewModel() {
         }
     }
 
+    inner class PostsBoundaryCallback(): PagedList.BoundaryCallback<RedditPost>() {
+        override fun onItemAtEndLoaded(itemAtEnd: RedditPost) {
+            viewModelScope.launch {
+                repository.redditPostsFetch(false)
+            }
+        }
+    }
 }

@@ -2,13 +2,13 @@ package ar.com.cristianduarte.reedettops.ui.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ar.com.cristianduarte.reedettops.databinding.ItemRedditPostBinding
 import ar.com.cristianduarte.reedettops.entity.RedditPost
 
-class RedditPostsAdapter : ListAdapter<RedditPost, RedditPostsAdapter.ViewHolder>(RedditPostDiffCallback()) {
+class RedditPostsAdapter : PagedListAdapter<RedditPost, RedditPostsAdapter.ViewHolder>(RedditPostDiffCallback()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -24,7 +24,7 @@ class RedditPostsAdapter : ListAdapter<RedditPost, RedditPostsAdapter.ViewHolder
     class ViewHolder private constructor(val binding: ItemRedditPostBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: RedditPost) {
+        fun bind(item: RedditPost?) {
             binding.redditPost = item
             binding.executePendingBindings()
         }

@@ -33,6 +33,6 @@ data class RedditPost (
     @ColumnInfo(name = "thumbnail")
     val thumbnail: String,
 
-    @ColumnInfo(name = "index")
+    @ColumnInfo(name = "idx")
     var index: Int
 )

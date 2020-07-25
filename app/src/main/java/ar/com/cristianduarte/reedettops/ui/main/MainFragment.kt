@@ -38,18 +38,21 @@ class MainFragment : Fragment() {
         val adapter = RedditPostsAdapter()
         binding.redditPostsRecyclerView.adapter = adapter
 
-        viewModel.redditPosts.observe(viewLifecycleOwner, Observer {
+        viewModel.pagedRedditPosts.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }
         })
+
+        // as we want "tops", we need to refresh when starting
+        viewModel.fetchRedditPosts(true)
 
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.fetchRedditPosts(true)
+        //viewModel.fetchRedditPosts(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

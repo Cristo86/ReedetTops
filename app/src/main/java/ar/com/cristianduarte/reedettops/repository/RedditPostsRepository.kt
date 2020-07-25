@@ -1,11 +1,14 @@
 package ar.com.cristianduarte.reedettops.repository
 
+import android.util.Log
 import ar.com.cristianduarte.reedettops.datasource.database.RedditPostsDao
 import ar.com.cristianduarte.reedettops.datasource.database.RedditPostsDatabase
+import ar.com.cristianduarte.reedettops.datasource.remote.entity.RedditPostsResponse
 import ar.com.cristianduarte.reedettops.datasource.remote.service.RedditApiDatasource
 import ar.com.cristianduarte.reedettops.entity.RedditPost
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.io.IOException
 
 class RedditPostsRepository(val redditApiDatasource: RedditApiDatasource, val redditPostsDao: RedditPostsDao) {
 
@@ -19,12 +22,20 @@ class RedditPostsRepository(val redditApiDatasource: RedditApiDatasource, val re
     fun redditPosts() = redditPostsDao.get()
 
     suspend fun redditPostsFetch(reset: Boolean) {
+        val afterBack = after
+        val countBack = count
         if (reset) {
             after = ""
             count = 0
         }
-
-        val top = redditApiDatasource.top(PAGE_SIZE, after)
+        val top: RedditPostsResponse
+        try {
+            top = redditApiDatasource.top(PAGE_SIZE, after)
+        } catch (ioe: IOException) {
+            after = afterBack
+            count = countBack
+            return
+        }
 
         val redditPostsToInsert = top.data.children.mapIndexed { index, redditPostData ->
             redditPostData.data.index = count + index
