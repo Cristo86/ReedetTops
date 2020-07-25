@@ -36,6 +36,10 @@ class MainViewModel(val repository: RedditPostsRepository) : ViewModel() {
         }
     }
 
+    fun onRefresh() {
+        fetchRedditPosts(true)
+    }
+
     inner class PostsBoundaryCallback(): PagedList.BoundaryCallback<RedditPost>() {
         override fun onItemAtEndLoaded(itemAtEnd: RedditPost) {
             viewModelScope.launch {

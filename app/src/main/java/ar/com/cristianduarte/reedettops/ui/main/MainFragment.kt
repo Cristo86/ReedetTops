@@ -39,9 +39,11 @@ class MainFragment : Fragment(), RedditPostsAdapter.RedditPostDismissClickListen
         val adapter = RedditPostsAdapter(this)
         binding.redditPostsRecyclerView.adapter = adapter
 
+        val swipeRefreshLayout = binding.swipeContainer
         viewModel.pagedRedditPosts.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
+                swipeRefreshLayout.isRefreshing = false
             }
         })
 
@@ -53,7 +55,6 @@ class MainFragment : Fragment(), RedditPostsAdapter.RedditPostDismissClickListen
 
     override fun onStart() {
         super.onStart()
-        //viewModel.fetchRedditPosts(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
