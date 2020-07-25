@@ -30,6 +30,12 @@ class MainViewModel(val repository: RedditPostsRepository) : ViewModel() {
         }
     }
 
+    fun dismissAllPosts() {
+        viewModelScope.launch {
+            repository.dismissAllPosts()
+        }
+    }
+
     fun onRefresh() {
         fetchRedditPosts(true)
     }
