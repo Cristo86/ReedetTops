@@ -51,13 +51,18 @@ class MainFragment : Fragment(), RedditPostsAdapter.RedditPostActionsListener {
             }
         })
 
+        val fetchIndicator = binding.fetchIndicator
+        viewModel.fetchIndicator.observe(viewLifecycleOwner, Observer {
+            fetchIndicator.visibility = if (it) View.VISIBLE else View.GONE
+        })
+
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         // as we want "tops", we need to refresh when starting
-        viewModel.fetchRedditPosts(true)
+        viewModel.startupFetch()
     }
 
     override fun onDismissClicked(redditPost: RedditPost) {

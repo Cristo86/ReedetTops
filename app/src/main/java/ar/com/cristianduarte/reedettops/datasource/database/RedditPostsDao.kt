@@ -1,34 +1,67 @@
 package ar.com.cristianduarte.reedettops.datasource.database
 
 import androidx.paging.DataSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import ar.com.cristianduarte.reedettops.datasource.database.entity.RedditPostPermanentInfo
 import ar.com.cristianduarte.reedettops.entity.RedditPost
-import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface RedditPostsDao {
+abstract class RedditPostsDao {
 
     @Query("SELECT * from reddit_posts ORDER BY idx asc")
-    fun get(): DataSource.Factory<Int, RedditPost>
+    abstract fun get(): DataSource.Factory<Int, RedditPost>
 
     @Query("DELETE from reddit_posts where id=:postId")
-    suspend fun delete(postId: String)
+    abstract suspend fun delete(postId: String)
 
     @Query("SELECT * from reddit_posts where id=:postId")
-    suspend fun get(postId: String) : RedditPost
+    abstract suspend fun get(postId: String) : RedditPost
 
     @Query("DELETE from reddit_posts")
-    suspend fun deleteAll()
+    abstract suspend fun deleteAll()
 
     @Query("UPDATE reddit_posts SET locally_read = 1 where id=:postId")
-    suspend fun markAsRead(postId: String)
+    abstract suspend fun markPostAsRead(postId: String)
 
     @Insert
-    suspend fun insert(redditPost: RedditPost)
+    abstract suspend fun insert(redditPost: RedditPost)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE) // TODO Double check this as it's hiding a problem
-    suspend fun insert(redditPosts: Collection<RedditPost>)
+    abstract suspend fun insert(redditPosts: Collection<RedditPost>)
+
+    @Query("SELECT * from reddit_post_permanent_info where id=:postId")
+    abstract suspend fun getPermanentInfo(postId: String) : RedditPostPermanentInfo?
+
+    @Insert()
+    abstract suspend fun insertPermanentInfo(redditPostPermanentInfo: RedditPostPermanentInfo)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract suspend fun insertPermanentInfo(redditPostPermanentInfos: List<RedditPostPermanentInfo>)
+
+    @Query("UPDATE reddit_post_permanent_info SET locally_read=1 WHERE id=:postId")
+    abstract suspend fun markAsReadPermanent(postId: String)
+
+    @Query("UPDATE reddit_post_permanent_info SET dismissed=1 WHERE id=:postId")
+    abstract suspend fun markAsDismissedPermanent(postId: String)
+
+    @Transaction
+    open suspend fun markAsRead(postId: String) {
+        markPostAsRead(postId)
+        markAsReadPermanent(postId)
+    }
+
+    @Transaction
+    open suspend fun dismissPost(postId: String) {
+        delete(postId)
+        markAsDismissedPermanent(postId)
+    }
+
+    @Transaction
+    open suspend fun insertPosts(
+        redditPosts: Collection<RedditPost>,
+        redditPostPermanentInfos: List<RedditPostPermanentInfo>
+    ) {
+        insert(redditPosts)
+        insertPermanentInfo(redditPostPermanentInfos)
+    }
 }

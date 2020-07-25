@@ -1,5 +1,6 @@
 package ar.com.cristianduarte.reedettops.ui.main
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
@@ -17,11 +18,10 @@ class MainViewModel(val repository: RedditPostsRepository) : ViewModel() {
         ).setBoundaryCallback(PostsBoundaryCallback())
             .build()
 
+    val fetchIndicator: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    fun fetchRedditPosts(reset: Boolean) {
-        viewModelScope.launch {
-            repository.redditPostsFetch(reset)
-        }
+    suspend fun fetchRedditPosts(reset: Boolean) {
+        repository.redditPostsFetch(reset)
     }
 
     fun dismissPost(redditPost: RedditPost) {
@@ -36,8 +36,18 @@ class MainViewModel(val repository: RedditPostsRepository) : ViewModel() {
         }
     }
 
+    fun startupFetch() {
+        viewModelScope.launch {
+            fetchIndicator.postValue(true)
+            fetchRedditPosts(true)
+            fetchIndicator.postValue(false)
+        }
+    }
+
     fun onRefresh() {
-        fetchRedditPosts(true)
+        viewModelScope.launch {
+            fetchRedditPosts(true)
+        }
     }
 
     inner class PostsBoundaryCallback(): PagedList.BoundaryCallback<RedditPost>() {

@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import ar.com.cristianduarte.reedettops.datasource.database.entity.RedditPostPermanentInfo
 import ar.com.cristianduarte.reedettops.entity.RedditPost
 
-@Database(entities = [RedditPost::class], version = 4, exportSchema = false)
+@Database(entities = [RedditPost::class, RedditPostPermanentInfo::class], version = 5, exportSchema = false)
 abstract class RedditPostsDatabase : RoomDatabase() {
     /**
      * Connects the database to the DAO.

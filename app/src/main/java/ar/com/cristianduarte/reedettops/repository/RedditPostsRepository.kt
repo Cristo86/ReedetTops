@@ -1,12 +1,10 @@
 package ar.com.cristianduarte.reedettops.repository
 
-import android.util.Log
 import ar.com.cristianduarte.reedettops.datasource.database.RedditPostsDao
+import ar.com.cristianduarte.reedettops.datasource.database.entity.RedditPostPermanentInfo
 import ar.com.cristianduarte.reedettops.datasource.remote.entity.RedditPostsResponse
 import ar.com.cristianduarte.reedettops.datasource.remote.service.RedditApiDatasource
 import ar.com.cristianduarte.reedettops.entity.RedditPost
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import java.io.IOException
 
 class RedditPostsRepository(val redditApiDatasource: RedditApiDatasource, val redditPostsDao: RedditPostsDao) {
@@ -36,14 +34,28 @@ class RedditPostsRepository(val redditApiDatasource: RedditApiDatasource, val re
             return
         }
 
-        val redditPostsToInsert = top.data.children.mapIndexed { index, redditPostData ->
-            redditPostData.data.index = count + index
-            redditPostData.data.previewImageUrl = redditPostData.data.preview?.images?.let {
+        val redditPostsToInsert = top.data.children.mapIndexedNotNull { index, redditPostData ->
+            val redditPost = redditPostData.data
+            // Our own index
+            redditPost.index = count + index
+
+            // Move the image url outside
+            redditPost.previewImageUrl = redditPost.preview?.images?.let {
                 if (it.isEmpty()) return@let ""
                 // Why &amp; https://old.reddit.com/r/redditdev/comments/9ncg2r/changes_in_api_pictures/
                 return@let it[0].source.url.replace("&amp;","&")
             }
-            redditPostData.data
+
+            // Get read and dismissed info..
+            val permanentInfo = redditPostsDao.getPermanentInfo(redditPost.id) ?: return@mapIndexedNotNull redditPost
+
+            if (permanentInfo.dismissed) {
+                return@mapIndexedNotNull null
+            }
+
+            redditPost.locallyRead = permanentInfo.locallyRead
+
+            return@mapIndexedNotNull redditPost
         }
         after = top.data.after?:""
         count += top.data.children.size
@@ -52,22 +64,20 @@ class RedditPostsRepository(val redditApiDatasource: RedditApiDatasource, val re
             redditPostsDao.deleteAll()
         }
 
-        redditPostsDao.insert(redditPostsToInsert)
-    }
+        val redditPostsPermanentToInsert = redditPostsToInsert.map { redditPost ->
+            RedditPostPermanentInfo(redditPost.id)
+        }
 
-    fun redditPostsOld(): Flow<List<RedditPost>> = flow {
-        // TODO Save data to a DB and then make that DB the only source of truth
-        val redditPostsResponse = redditApiDatasource.top(20, "")
-        emit (redditPostsResponse.data.children.map {
-            it.data
-        })
+        redditPostsDao.insertPosts(redditPostsToInsert, redditPostsPermanentToInsert)
     }
 
     suspend fun dismissPost(redditPost: RedditPost) {
-        redditPostsDao.delete(redditPost.id)
+        // if the user refreshes, this will be considered "permanently dismissed"
+        redditPostsDao.dismissPost(redditPost.id)
     }
 
     suspend fun dismissAllPosts() {
+        // As in case of accident, if the user refreshes, those won't be considered "permanently dismissed"
         redditPostsDao.deleteAll()
     }
 
