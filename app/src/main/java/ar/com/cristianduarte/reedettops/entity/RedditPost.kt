@@ -34,5 +34,8 @@ data class RedditPost (
     val thumbnail: String,
 
     @ColumnInfo(name = "idx")
-    var index: Int
+    var index: Int,
+
+    @ColumnInfo(name = "locally_read")
+    var locallyRead: Boolean
 )

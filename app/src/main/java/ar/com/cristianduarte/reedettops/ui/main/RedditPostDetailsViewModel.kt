@@ -12,7 +12,11 @@ class RedditPostDetailsViewModel(val repository: RedditPostsRepository) : ViewMo
         currentRedditPost = repository.redditPostById(id)
     }
 
+    suspend fun markRedditPostAsRead(id: String) {
+        repository.markRedditPostAsRead(id)
+    }
+
     companion object {
-        val NO_POST = RedditPost("","","",0,0,"", 0)
+        val NO_POST = RedditPost("","","",0,0,"", 0, false)
     }
 }

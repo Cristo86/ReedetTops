@@ -66,4 +66,8 @@ class RedditPostsRepository(val redditApiDatasource: RedditApiDatasource, val re
     suspend fun redditPostById(id: String): RedditPost {
         return redditPostsDao.get(id)
     }
+
+    suspend fun markRedditPostAsRead(id: String) {
+        redditPostsDao.markAsRead(id)
+    }
 }

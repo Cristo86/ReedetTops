@@ -46,6 +46,7 @@ class RedditPostDetailsFragment : Fragment() {
             viewModel.redditPostById(redditPostId)
             binding.viewModel = viewModel
             binding.executePendingBindings()
+            viewModel.markRedditPostAsRead(redditPostId)
         }
     }
 
@@ -53,6 +54,9 @@ class RedditPostDetailsFragment : Fragment() {
         binding.viewModel = viewModel
         viewModel.currentRedditPost = redditPost
         binding.executePendingBindings()
+        lifecycleScope.launch {
+            viewModel.markRedditPostAsRead(redditPost.id)
+        }
     }
 }
 

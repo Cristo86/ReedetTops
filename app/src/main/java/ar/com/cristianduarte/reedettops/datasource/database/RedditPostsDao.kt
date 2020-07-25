@@ -23,6 +23,9 @@ interface RedditPostsDao {
     @Query("DELETE from reddit_posts")
     suspend fun deleteAll()
 
+    @Query("UPDATE reddit_posts SET locally_read = 1 where id=:postId")
+    suspend fun markAsRead(postId: String)
+
     @Insert
     suspend fun insert(redditPost: RedditPost)
 

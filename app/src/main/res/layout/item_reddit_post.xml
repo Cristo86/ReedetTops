@@ -17,12 +17,14 @@
         android:layout_height="wrap_content"
         android:onClick="@{() -> actionsListener.onRedditPostClicked(redditPost)}">
 
-        <ImageView
+        <View
             android:id="@+id/post_read_indicator"
             android:layout_width="16dp"
             android:layout_height="16dp"
+            android:background="@color/colorAccent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:makeInvisibie="@{redditPost.locallyRead}"/>
 
         <TextView
             android:id="@+id/post_author"

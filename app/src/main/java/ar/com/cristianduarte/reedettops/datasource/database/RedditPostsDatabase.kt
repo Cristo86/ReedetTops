@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import ar.com.cristianduarte.reedettops.entity.RedditPost
 
-@Database(entities = [RedditPost::class], version = 1, exportSchema = false)
+@Database(entities = [RedditPost::class], version = 2, exportSchema = false)
 abstract class RedditPostsDatabase : RoomDatabase() {
     /**
      * Connects the database to the DAO.
