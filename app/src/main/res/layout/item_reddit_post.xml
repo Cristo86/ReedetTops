@@ -39,13 +39,15 @@
             app:layout_constraintTop_toTopOf="@id/post_author"
             app:layout_constraintBottom_toBottomOf="@id/post_author"
             app:layout_constraintStart_toEndOf="@id/post_author"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:gravity="end|center_vertical"
             app:timeAgoSecs="@{redditPost.createdUtc}"/>
 
         <ImageView
             android:id="@+id/post_read_indicator"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_width="@dimen/read_indicator_size"
+            android:layout_height="@dimen/read_indicator_size"
             app:layout_constraintTop_toTopOf="@id/post_author"
             app:layout_constraintBottom_toBottomOf="@id/post_author"
             app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +101,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/post_dismiss"
             app:layout_constraintBottom_toBottomOf="@id/post_dismiss"
-            android:gravity="center"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:gravity="right|center_vertical"
             style="@style/TextAppearance.AppCompat.Small"
             android:text="@{@plurals/comments_count(redditPost.numComments, redditPost.numComments)}"
             tools:text="234 Comments"/>

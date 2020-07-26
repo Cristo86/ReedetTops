@@ -5,6 +5,8 @@
 
     <dimen name="item_height">160dp</dimen>
 
+    <dimen name="read_indicator_size">16dp</dimen>
+
     <dimen name="item_thumbnail_size">64dp</dimen>
 
     <dimen name="post_image_size">200dp</dimen>
