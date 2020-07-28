@@ -10,4 +10,6 @@
     <dimen name="item_thumbnail_size">64dp</dimen>
 
     <dimen name="post_image_size">200dp</dimen>
+
+    <dimen name="icon_button_extra_padding_target">8dp</dimen>
 </resources>

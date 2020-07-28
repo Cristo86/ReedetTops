@@ -11,4 +11,8 @@
         <item quantity="one">1 comment</item>
         <item quantity="other">%1$d comments</item>
     </plurals>
+
+    <string name="cannot_save_image">Cannot save image without permission</string>
+    <string name="error_saving_image">Error saving image</string>
+    <string name="successful_saving_image">Image saved in Gallery</string>
 </resources>
