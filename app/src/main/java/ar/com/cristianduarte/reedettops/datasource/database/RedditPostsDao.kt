@@ -26,7 +26,7 @@ abstract class RedditPostsDao {
     @Insert
     abstract suspend fun insert(redditPost: RedditPost)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE) // TODO Double check this as it's hiding a problem
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun insert(redditPosts: Collection<RedditPost>)
 
     @Query("SELECT * from reddit_post_permanent_info where id=:postId")

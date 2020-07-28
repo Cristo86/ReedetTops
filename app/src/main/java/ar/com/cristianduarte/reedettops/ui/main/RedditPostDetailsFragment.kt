@@ -37,7 +37,6 @@ class RedditPostDetailsFragment : Fragment() {
 
     private val redditPostDetailsActionsListener = RedditPostDetailsActionsListener()
 
-    // TODO delete private val viewModel: RedditPostDetailsViewModel by viewModels()
     private val viewModel: RedditPostDetailsViewModel by viewModels {
         RedditPostDetailsViewModelFactory(
             RedditPostsRepository(

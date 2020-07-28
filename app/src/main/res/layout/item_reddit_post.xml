@@ -80,7 +80,6 @@
             android:maxLines="4"
             android:text="@{redditPost.title}"
             tools:text="Man trying to return a dog's toy gets tricked into playing fetch" />
-<!-- TODO Make sense of all dimensions and positioning here -->
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/post_dismiss"
