@@ -62,6 +62,7 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> actionsListener.onSaveImageClick(viewModel.currentRedditPost.previewImageUrl)}"
+            app:makeInvisibleIfStringBlank="@{viewModel.currentRedditPost.previewImageUrl}"
             android:src="@drawable/ic_save_black_24dp"/>
 
         <ImageView
@@ -76,6 +77,7 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> actionsListener.onFullScreenImageClick(viewModel.currentRedditPost.previewImageUrl)}"
+            app:makeInvisibleIfStringBlank="@{viewModel.currentRedditPost.previewImageUrl}"
             android:src="@drawable/ic_fullscreen_black_24dp"/>
 
         <TextView
