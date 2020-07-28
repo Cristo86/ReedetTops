@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -99,7 +100,11 @@ class RedditPostDetailsFragment : Fragment() {
     }
 
     fun saveImageToGalleryBehindPermissions(imageUrl: String) {
-        // TODO test in ANDROID Q
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            saveImageToGallery(imageUrl)
+            return
+        }
+
         if (ContextCompat.checkSelfPermission(
                 requireActivity(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE

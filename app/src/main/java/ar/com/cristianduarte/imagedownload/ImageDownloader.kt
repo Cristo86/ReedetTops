@@ -36,7 +36,6 @@ class ImageDownloader {
         }
 
         if (sourceFile == null) {
-            // TODO Tell the user it was not possible
             return false
         }
 
@@ -53,7 +52,7 @@ class ImageDownloader {
             contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
             contentValues.put(
                 MediaStore.MediaColumns.RELATIVE_PATH,
-                Environment.DIRECTORY_PICTURES + File.separator + context.applicationInfo.name
+                Environment.DIRECTORY_PICTURES + File.separator + context.applicationInfo.loadLabel(context.packageManager).toString()
             )
             val imageUri: Uri? =
                 resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
@@ -61,7 +60,6 @@ class ImageDownloader {
         } else {
 
             val imagesDir: File? =
-                //context.getExternalFilesDir(Environment.DIRECTORY_PICTURES + File.separator + context.applicationInfo.name)
                 File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                     File.separator + context.applicationInfo.loadLabel(context.packageManager).toString()
                 )
@@ -70,7 +68,6 @@ class ImageDownloader {
                     imagesDir.mkdirs()
                 }
             } else {
-                // TODO Tell the user it was not possible
                 return false
             }
             destImageHandle = File(imagesDir, name)
@@ -78,7 +75,6 @@ class ImageDownloader {
         }
 
         if (fos == null) {
-            // TODO Tell the user it was not possible
             return false
         }
 
